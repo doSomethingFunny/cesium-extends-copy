@@ -1,3 +1,10 @@
+## @cesium-extends/drawer [1.3.8](https://github.com/hongfaqiu/cesium-extends/compare/@cesium-extends/drawer@1.3.7...@cesium-extends/drawer@1.3.8) (2025-10-10)
+
+
+### Bug Fixes
+
+* remove deprecated defaultValue for cesium 1.134 ([6d2cef1](https://github.com/hongfaqiu/cesium-extends/commit/6d2cef16f8088d7c6eb33f509c088a811c8348aa))
+
 ## @cesium-extends/drawer [1.3.7](https://github.com/hongfaqiu/cesium-extends/compare/@cesium-extends/drawer@1.3.6...@cesium-extends/drawer@1.3.7) (2024-11-25)
 
 
