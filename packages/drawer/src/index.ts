@@ -1,4 +1,4 @@
-import { Color, defaultValue, Entity, JulianDate } from 'cesium';
+import { Color, Entity, JulianDate } from 'cesium';
 import { MouseTooltip } from '@cesium-extends/tooltip';
 import Subscriber from '@cesium-extends/subscriber';
 
@@ -131,7 +131,17 @@ export default class Drawer {
   }
 
   constructor(viewer: Viewer, options?: Partial<DrawOption>) {
-    this._option = defaultValue(options, {});
+    this._option = {
+      terrain: options?.terrain ?? defaultOptions.terrain,
+      model: options?.model ?? defaultOptions.model,
+      operateType: options?.operateType ?? defaultOptions.operateType,
+      action: options?.action ?? defaultOptions.action,
+      sameStyle: options?.sameStyle ?? defaultOptions.sameStyle,
+      dynamicGraphicsOptions:
+        options?.dynamicGraphicsOptions ??
+        defaultOptions.dynamicGraphicsOptions,
+      tips: options?.tips ?? defaultOptions.tips,
+    };
 
     if (!viewer) throw new Error('请输入Viewer对象！');
 
@@ -142,17 +152,14 @@ export default class Drawer {
     } as Required<OperationType>;
 
     this._viewer = viewer;
-    this._terrain = defaultValue(this._option.terrain, defaultOptions.terrain);
-    this._model = defaultValue(this._option.model, defaultOptions.model);
+    this._terrain = this._option.terrain;
+    this._model = this._option.model;
 
     this._action = this._option.action;
 
-    this._sameStyle = options?.sameStyle ?? true;
+    this._sameStyle = this._option.sameStyle;
 
-    this._tips = {
-      ...defaultOptions.tips,
-      ...options?.tips,
-    } as Required<DrawOption['tips']>;
+    this._tips = this._option.tips as Required<DrawOption['tips']>;
 
     if (this._terrain && !this._viewer.scene.pickPositionSupported) {
       console.warn(
@@ -233,9 +240,9 @@ export default class Drawer {
     overrideFunc: OverrideEntityFunc = (action: EventType, entity: Entity) =>
       entity,
   ): void {
-    config = defaultValue(config, {});
-    this._once = defaultValue(config.once, true);
-    this._oneInstance = defaultValue(config.oneInstance, false);
+    config = config ?? {};
+    this._once = config.once ?? true;
+    this._oneInstance = config.oneInstance ?? false;
 
     if (!this._isSupport(config.type)) {
       throw new Error(`the type '${config.type}' is not support`);
